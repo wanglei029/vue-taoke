@@ -19,7 +19,12 @@
               swipeable>
       <van-tab :title="channel.cname"
                v-for='channel in channels'
-               :key="channel.cid">{{channel.cname}}</van-tab>
+               :key="channel.cid">
+        <home-list v-if="channel.cid===-1"></home-list>
+        <!-- 根据商品分类的不同id加载不同组件数据 -->
+        <goods-list v-else
+                    :channel='channel'></goods-list>
+      </van-tab>
     </van-tabs>
     <!--/ 商品分类列表 -->
 
@@ -28,10 +33,12 @@
 
 <script>
 import { getSuperCategory } from '@/api/goods'
+import GoodsList from './components/goods-list'
+import HomeList from './components/home-list'
 export default {
   name: 'home',
   props: {},
-  components: {},
+  components: { GoodsList, HomeList },
   data () {
     return {
       active: 0,
@@ -52,7 +59,7 @@ export default {
     /* 获取商品分类 */
     async loadSuperCategory () {
       const { data } = await getSuperCategory()
-      this.channels = data.data
+      this.channels = [{ cid: -1, cname: '精选' }, ...data.data]
       // console.log(data)
     }
   },
