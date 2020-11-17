@@ -7,28 +7,55 @@
                   class="search-btn"
                   round>搜索</van-button>
     </van-nav-bar>
+    <!-- 商品分类列表 -->
+    <!--
+      line-height='0' 标题下面的线条
+      title-active-color='#fe204a' 默认选中时的字体颜色
+      swipeable 滑动切换
+     -->
+    <van-tabs v-model="active"
+              line-height='0'
+              title-active-color='#fe204a'
+              swipeable>
+      <van-tab :title="channel.cname"
+               v-for='channel in channels'
+               :key="channel.cid">{{channel.cname}}</van-tab>
+    </van-tabs>
+    <!--/ 商品分类列表 -->
+
   </div>
 </template>
 
 <script>
-
+import { getSuperCategory } from '@/api/goods'
 export default {
   name: 'home',
   props: {},
   components: {},
   data () {
     return {
-
+      active: 0,
+      channels: [] // 商品分类
     }
   },
 
   computed: {},
 
-  created () { },
+  created () {
+    /* 加载商品分类 */
+    this.loadSuperCategory()
+  },
 
   mounted () { },
 
-  methods: {},
+  methods: {
+    /* 获取商品分类 */
+    async loadSuperCategory () {
+      const { data } = await getSuperCategory()
+      this.channels = data.data
+      // console.log(data)
+    }
+  },
 
   watch: {}
 
