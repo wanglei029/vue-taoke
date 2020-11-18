@@ -1,6 +1,27 @@
 import request from '@/utils/request'
 
 /**
+ * 热门活动
+ */
+export function getActivity (params) {
+  return request({
+    method: 'GET',
+    url: '/api/category/get-tb-topic-list',
+    params
+  })
+}
+/**
+ * 官方活动会场转链
+ */
+export function getActivityLink (params) {
+  return request({
+    method: 'GET',
+    url: '/api/tb-service/activity-link',
+    params
+  })
+}
+
+/**
  * 获取商品列表
  */
 export function getGoodsList (params) {
@@ -93,5 +114,12 @@ export const getHotSearch = () => {
   return request({
     method: 'GET',
     url: '/api/category/get-top100'
+  })
+}
+/* 获取热搜记录 */
+export const getRecommend = () => {
+  return request({
+    method: 'GET',
+    url: 'http://cmsjapi.ffquan.cn/api/category/product/model-detail-by-model-id-new?entityId=4&modelId=-1&proModelId=1&source=3&version=v1&tuserId=1206917&isWechat=0'
   })
 }
