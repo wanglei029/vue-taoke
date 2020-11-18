@@ -1,6 +1,15 @@
 import request from '@/utils/request'
 
 /**
+ * 九宫格导航图标
+ */
+export function getGridIcons () {
+  return request({
+    method: 'GET',
+    url: 'http://cmsjapi.ffquan.cn/api/category/product/model-detail-by-model-id-new?entityId=4&modelId=17922&proModelId=2&source=3&version=v1&tuserId=1206917&isWechat=0'
+  })
+}
+/**
  * 热门活动
  */
 export function getActivity (params) {

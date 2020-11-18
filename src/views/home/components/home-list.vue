@@ -14,13 +14,30 @@
       </van-swipe>
       <div class="bg-placeholder"></div>
     </div>
+    <!-- 九宫格 -->
+    <van-swipe class="grid-wrap"
+               indicator-color="red">
+      <van-swipe-item v-for="(page, index) in pages"
+                      :key="index">
+        <van-grid :column-num="5">
+          <van-grid-item v-for="icon in page"
+                         :key="icon.address">
+            <van-image slot="icon"
+                       :src="icon.address"
+                       fit="contain" />
+            <div slot="text"
+                 class="icon-text">{{icon.name}}</div>
+          </van-grid-item>
+        </van-grid>
+      </van-swipe-item>
+    </van-swipe>
 
   </div>
 </template>
 
 <script>
 import {
-  getActivity
+  getActivity, getGridIcons
   // getActivityLink
 } from '@/api/goods'
 export default {
@@ -29,14 +46,28 @@ export default {
   components: {},
   data () {
     return {
-      activities: []
+      activities: [],
+      gridIcons: []
     }
   },
 
-  computed: {},
+  computed: {
+    pages () {
+      const pages = []
+      this.gridIcons.forEach((item, index) => {
+        const page = Math.floor(index / 10)
+        if (!pages[page]) {
+          pages[page] = []
+        }
+        pages[page].push(item)
+      })
+      return pages
+    }
+  },
 
   created () {
     this.loadActivity()
+    this.loadGridIcons()
   },
 
   mounted () {
@@ -58,6 +89,11 @@ export default {
       //   })
       //   console.log(data)
       // })
+    },
+    async loadGridIcons () {
+      const { data } = await getGridIcons()
+      // console.log(data)
+      this.gridIcons = data.data.config.data
     }
   },
 
@@ -79,6 +115,10 @@ export default {
   right: 0;
   overflow-y: auto;
   .swipe-wraper {
+    overflow: hidden;
+    width: 100%;
+    height: 0;
+    padding-bottom: 37.333333%;
     position: relative;
     .van-swipe {
       z-index: 1;
@@ -101,6 +141,41 @@ export default {
       // transform: translateY(-180px);
       position: absolute;
       top: 0;
+    }
+  }
+  .grid-wrap {
+    /* 使用padding-bottom提前占位防止图片加载后页面抖动 */
+    overflow: hidden;
+    width: 100%;
+    height: 0;
+    padding-bottom: 60.66667%;
+    background: #fff;
+    /deep/ .van-grid-item__icon-wrapper {
+      width: 100%;
+      height: 0;
+      padding-bottom: 108.33333%;
+      overflow: hidden;
+    }
+    /deep/ .van-grid-item__content {
+      .icon-text {
+        font-size: 12px;
+        line-height: 16px;
+        text-align: center;
+        color: #333;
+        overflow: hidden; /*内容超出后隐藏*/
+        text-overflow: ellipsis; /*超出部分以省略号显示*/
+        white-space: nowrap; /*文本不进行换行*/
+      }
+    }
+    /deep/.van-swipe__indicators {
+      position: absolute;
+      bottom: 6px;
+      .van-swipe__indicator {
+        width: 16px;
+        height: 3px;
+        border-radius: 3px;
+        background: #333;
+      }
     }
   }
 }
