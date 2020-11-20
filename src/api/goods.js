@@ -41,6 +41,16 @@ export function getGoodsList (params) {
   })
 }
 /**
+ * 获取大淘客独家券商品
+ */
+export function getExclusiveGoodsList (params) {
+  return request({
+    method: 'GET',
+    url: '/api/goods/exclusive-goods-list',
+    params
+  })
+}
+/**
  * 获取直播好货
  */
 export function getLiveMaterialGoodsList (params) {

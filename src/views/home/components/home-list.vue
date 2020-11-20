@@ -31,23 +31,38 @@
         </van-grid>
       </van-swipe-item>
     </van-swipe>
-
+    <!-- 每日爆品 直播推荐 -->
+    <van-tabs v-model="active"
+              class="tab-wrap"
+              type="card"
+              :sticky='true'
+              offset-top='90'>
+      <van-tab title="每日优选">
+        <youxuan-list></youxuan-list>
+      </van-tab>
+      <van-tab title="直播推荐">
+        <zhibo-list></zhibo-list>
+      </van-tab>
+    </van-tabs>
   </div>
 </template>
 
 <script>
 import {
-  getActivity, getGridIcons
-  // getActivityLink
+  getActivity,
+  getGridIcons
 } from '@/api/goods'
+import YouxuanList from './youxuan-list/youxuan-list'
+import ZhiboList from './zhibo-list/zhibo-list'
 export default {
   name: 'home-list',
   props: {},
-  components: {},
+  components: { YouxuanList, ZhiboList },
   data () {
     return {
-      activities: [],
-      gridIcons: []
+      activities: [], // 幻灯片
+      gridIcons: [], // 九宫格图标
+      active: 0
     }
   },
 
@@ -75,6 +90,7 @@ export default {
   },
 
   methods: {
+    /* 轮播图 */
     async loadActivity () {
       const { data } = await getActivity()
       console.log(data)
@@ -90,11 +106,13 @@ export default {
       //   console.log(data)
       // })
     },
+    /* 九宫格 */
     async loadGridIcons () {
       const { data } = await getGridIcons()
       // console.log(data)
       this.gridIcons = data.data.config.data
     }
+
   },
 
   watch: {}
@@ -176,6 +194,12 @@ export default {
         border-radius: 3px;
         background: #333;
       }
+    }
+  }
+  /deep/ .tab-wrap {
+    .van-sticky {
+      height: 30px;
+      line-height: 30px;
     }
   }
 }

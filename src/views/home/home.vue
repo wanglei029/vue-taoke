@@ -23,7 +23,7 @@
         <home-list v-if="channel.cid===-1"></home-list>
         <!-- 根据商品分类的不同id加载不同组件数据 -->
         <goods-list v-else
-                    :channel='channel'></goods-list>
+                    :category='channel'></goods-list>
       </van-tab>
     </van-tabs>
     <!--/ 商品分类列表 -->
@@ -33,7 +33,7 @@
 
 <script>
 import { getSuperCategory } from '@/api/goods'
-import GoodsList from './components/goods-list'
+import GoodsList from './components/goods-list/goods-list'
 import HomeList from './components/home-list'
 export default {
   name: 'home',
