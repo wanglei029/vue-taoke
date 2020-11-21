@@ -2,7 +2,7 @@
   <div class='good-item-container'>
     <van-cell class="product-card"
               :to="{
-         name:'goods',
+         name:'Goods',
          params:{id:goods.id,goodsId:goods.goodsId}
        }">
       <div @click="selectItem(goods)">

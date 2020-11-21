@@ -35,8 +35,7 @@
     <van-tabs v-model="active"
               class="tab-wrap"
               type="card"
-              :sticky='true'
-              offset-top='90'>
+              :sticky='true'>
       <van-tab title="每日优选">
         <youxuan-list></youxuan-list>
       </van-tab>
@@ -200,6 +199,7 @@ export default {
     .van-sticky {
       height: 30px;
       line-height: 30px;
+      top: 90px;
     }
   }
 }
