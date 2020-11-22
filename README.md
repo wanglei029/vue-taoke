@@ -28,4 +28,6 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 git branch home
 git checkout home
 ```
-### 
+### 问题汇总：
+#### 详情页 自适应img图片在下方会有一点空白距离
+#### router传参刷新页面未在route中定义的参数会消失

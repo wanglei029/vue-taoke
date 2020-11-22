@@ -41,7 +41,7 @@ const routes = [
     ]
   },
   {
-    path: '/goods/:goodsId',
+    path: '/goods/:goodsId/:id',
     name: 'Goods',
     component: () => import('@/views/goods/goods')
   }

@@ -184,7 +184,7 @@ export default {
           height: 14px;
           background: linear-gradient(90deg, #ff8873 0, #ff4f4f 100%);
           border-radius: 2px;
-          padding: 0 5px 0 1px;
+          padding: 2px 5px 1px 1px;
           font-size: 9.5px;
           font-weight: 400;
           color: #fff;

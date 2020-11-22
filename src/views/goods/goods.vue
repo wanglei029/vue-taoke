@@ -116,9 +116,20 @@
       </div>
     </van-tabs>
     <van-goods-action>
-      <van-goods-action-icon icon="chat-o"
-                             text="客服"
-                             color="#07c160" />
+      <!-- class="iconfont"
+                  class-prefix='icon'
+                  slot="icon"
+                  slot-scope="props"
+                  :name="props.active ?'home-fill':'home1'" -->
+      <van-goods-action-icon @click="$router.push('/')">
+        <span class="icon icon-home-fill"
+              color="#07c160"
+              slot="icon"></span>
+        <span>首页</span>
+      </van-goods-action-icon>
+      <!-- <van-goods-action-icon icon="home"
+                             text="首页"
+                             color="#07c160" /> -->
       <van-goods-action-icon icon="cart-o"
                              text="购物车" />
       <van-goods-action-icon icon="star"
@@ -162,23 +173,24 @@ export default {
   created () {
     window.addEventListener('scroll', this.handleScroll)
     this.loadGoodsDetails()
-    console.log(this.buyRecords)
+    this.loadSimilerGoods()
   },
 
   mounted () { },
 
   methods: {
     async loadGoodsDetails () {
-      // console.log(this.$route)
+      console.log('获取商品详情', this.$route.params)
       const params = this.$route.params
       const { data } = await getGoodsDetails(params)
       this.goods = data.data
-      const similer = await getSimilerGoods({ id: this.$route.params.id })
-      this.similerGoods = similer.data.data
-      console.log(data)
       this.detailPics = JSON.parse(data.data.detailPics)
-      console.log(this.detailPics)
-      console.log(similer)
+    },
+    async loadSimilerGoods () {
+      const params = this.$route.params
+      console.log('获取相似好物', { id: this.$route.params.id })
+      const { data } = await getSimilerGoods({ id: this.$route.params.id })
+      this.similerGoods = data.data
     },
     onClickLeft () {
       this.$toast('返回')
@@ -206,6 +218,12 @@ export default {
   },
 
   watch: {
+    '$route' (to, from) {
+      this.loadGoodsDetails()
+      this.loadSimilerGoods()
+      document.documentElement.scrollTop =
+        document.body.scrollTop = 0
+    }
   }
 
 }
