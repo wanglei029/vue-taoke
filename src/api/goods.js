@@ -81,7 +81,7 @@ export const getGoodsDetails = (params) => {
   })
 }
 /**
- * 获取单品详情
+ * 获取相似商品 猜你喜欢
  */
 export const getSimilerGoods = (params) => {
   return request({

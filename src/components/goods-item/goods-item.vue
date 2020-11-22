@@ -191,7 +191,7 @@ export default {
           line-height: 14px;
           display: inline-block;
           position: relative;
-          z-index: 1;
+          // z-index: 1;
           zoom: 1;
           top: 0;
           vertical-align: middle;

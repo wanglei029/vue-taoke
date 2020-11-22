@@ -54,22 +54,52 @@
                 <span>{{goods.couponStartTime|date}}-{{goods.couponEndTime|date}}</span>
               </div>
             </div>
-            <a class="galaxy-abstract-coupon-receive">
+            <a class="galaxy-abstract-coupon-receive"
+               :href="goods.couponLink">
               立即领券 </a>
           </div>
         </div>
       </van-tab>
       <van-tab title="评价"
                name="common">
-        评价
+        <van-cell title="达人推荐"
+                  icon="manager"
+                  :value='`分享${goods.hotPush}次`' />
+        <div class="galaxy-talent-content">{{goods.desc}}</div>
       </van-tab>
       <van-tab title="详情"
                name="detail">
-        详情
+        <!-- 店铺信息 -->
+        <div class="galaxy-store flex-row">
+          <img :src="goods.shopLogo?goods.shopLogo:'https://img.alicdn.com/imgextra//3f/c1/TB1oOwUazqhSKJjSspnSuw79XXa.jpg'">
+          <div class="galaxy-store-info flex-column">
+            <div class="galaxy-store-info-header flex-row">
+              <div class="galaxy-store-info-title">{{goods.shopName}}</div>
+              <div class="galaxy-store-info-into">
+                <a class="coming"
+                   href="javascript:void(0)">进店逛逛</a>
+                <a class="all"
+                   href="javascript:void(0)"> 全部商品 </a>
+              </div>
+            </div>
+            <div class="galaxy-store-info-score flex-row"> <span>描述：4.8<i class="high-score">高</i></span> <span>卖家：4.8<i class="high-score">高</i></span> <span>物流：4.8<i class="high-score">高</i></span> </div>
+          </div>
+        </div>
+        <!-- 详情图 -->
+        <van-collapse v-model="activeDetail">
+          <van-collapse-item title="商品详情"
+                             name="detail">
+            <van-image class="detail-pic"
+                       v-for="(img,index) in detailPics"
+                       :key="index"
+                       :src="img.img"
+                       fit="contain" />
+          </van-collapse-item>
+        </van-collapse>
       </van-tab>
       <van-tab title="推荐"
                name="recommend">
-        推荐
+        <goods-list :list='similerGoods'></goods-list>
       </van-tab>
       <div slot="nav-left"
            class="wap-nav-placeholder"></div>
@@ -85,21 +115,39 @@
         <van-icon name="ellipsis" />
       </div>
     </van-tabs>
+    <van-goods-action>
+      <van-goods-action-icon icon="chat-o"
+                             text="客服"
+                             color="#07c160" />
+      <van-goods-action-icon icon="cart-o"
+                             text="购物车" />
+      <van-goods-action-icon icon="star"
+                             text="已收藏"
+                             color="#ff5000" />
+      <van-goods-action-button type="warning"
+                               text="加入购物车" />
+      <van-goods-action-button type="danger"
+                               text="立即购买" />
+    </van-goods-action>
   </div>
 </template>
 
 <script>
 import { getGoodsDetails, getSimilerGoods } from '@/api/goods'
 import { debounce } from 'lodash'
+import GoodsList from './similer-goods'
 
 export default {
   name: 'Goods',
   props: {},
-  components: {},
+  components: { GoodsList },
   data () {
     return {
+      activeDetail: [],
       activeName: 'goods',
       goods: {},
+      detailPics: [],
+      similerGoods: [],
       showTopNav: true
     }
   },
@@ -126,7 +174,10 @@ export default {
       const { data } = await getGoodsDetails(params)
       this.goods = data.data
       const similer = await getSimilerGoods({ id: this.$route.params.id })
+      this.similerGoods = similer.data.data
       console.log(data)
+      this.detailPics = JSON.parse(data.data.detailPics)
+      console.log(this.detailPics)
       console.log(similer)
     },
     onClickLeft () {
@@ -211,7 +262,8 @@ export default {
   }
   /deep/ .van-tab__pane,
   .van-tab__pane-wrapper {
-    height: 600px;
+    // height: 600px;
+    background: #fff;
   }
   /deep/ .van-nav-bar__title {
     max-width: unset;
@@ -240,6 +292,7 @@ export default {
   //   height: 40px;
   //   line-height: 40px;
   // }
+  /* 主图下方 价格标题 */
   .galaxy-abstract {
     border-top: 1px solid #eaeaea;
     border-radius: 0 0 10px 10px;
@@ -397,6 +450,151 @@ export default {
           top: 60px;
         }
       }
+    }
+  }
+  /* 评价 */
+  .galaxy-talent-content {
+    background: #f4f4f4;
+    border-radius: 10px;
+    padding: 8px 18px;
+    margin-top: 10px;
+    position: relative;
+    color: #555;
+    line-height: 18px;
+    font-size: 12px;
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    &::after {
+      content: "";
+      width: 0;
+      height: 0;
+      position: absolute;
+      top: -10px;
+      left: 51px;
+      border-bottom: 12px solid #f4f4f4;
+      border-right: 20px solid #fff;
+      z-index: 8;
+      transform: rotate(-10deg);
+    }
+  }
+  /* 店铺信息 */
+  .galaxy-store {
+    padding: 10px;
+    background: #fff;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    img {
+      width: 52px;
+      height: 52px;
+      border-radius: 5px;
+      flex-basis: 52px;
+    }
+    .galaxy-store-info {
+      flex: 1;
+      height: 52px;
+      box-sizing: border-box;
+      padding-left: 8px;
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: space-between;
+      align-items: stretch;
+      .galaxy-store-info-header {
+        justify-content: space-between;
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        .galaxy-store-info-title {
+          height: 20px;
+          font-size: 13px;
+          font-family: PingFangSC-Medium, PingFang SC;
+          font-weight: 500;
+          color: #333;
+          line-height: 20px;
+        }
+        .galaxy-store-info-into {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          a:first-child {
+            width: 58px;
+            height: 22px;
+            line-height: 22px;
+            font-size: 11px;
+            color: #fe3738;
+            border: 1px solid #fe3738;
+            font-family: PingFangSC-Regular, PingFang SC;
+            font-weight: 400;
+          }
+          a {
+            text-decoration: none;
+            text-align: center;
+            border-radius: 11px;
+            display: inline-block;
+          }
+          a:last-child {
+            width: 60px;
+            height: 24px;
+            line-height: 24px;
+            background: linear-gradient(90deg, #ff5050 0, #ff345d 100%);
+            font-size: 11px;
+            color: #fff;
+            margin-left: 10px;
+            font-family: PingFangSC-Regular, PingFang SC;
+            font-weight: 400;
+          }
+        }
+      }
+      .galaxy-store-info-score {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: flex-start;
+        align-items: center;
+        span {
+          display: inline-flex;
+          align-items: center;
+          height: 18px;
+          font-size: 12px;
+          color: #888;
+          font-family: PingFangSC-Regular, PingFang SC;
+          font-weight: 400;
+          &:nth-child(n + 2) {
+            margin-left: 14px;
+          }
+          i {
+            margin-left: 4px;
+            display: inline-block;
+            width: 13px;
+            height: 13px;
+            line-height: 13px;
+            text-align: center;
+            background: #f0f0f0;
+            border-radius: 3px;
+            font-style: normal;
+            font-size: 9px;
+          }
+          i.high-score {
+            background: #fa2435;
+            color: #fff;
+          }
+        }
+      }
+      .galaxy-talent-title {
+        justify-content: space-between;
+      }
+    }
+  }
+  /* 详情图 解决自适应高度的div里放置图片在下方会有一点空白距离*/
+  .detail-pic {
+    display: block;
+    img {
+      vertical-align: middle;
+      width: 100%;
+      background: rgb(245, 245, 245);
+      display: inline;
     }
   }
 }
