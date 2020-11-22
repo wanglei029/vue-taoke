@@ -6,6 +6,9 @@
                  :goods="item"
                  :key="item.id"
                  class="goods-item"></good-item>
+      <div slot="loading">
+        <span>加载中……</span>
+      </div>
     </van-list>
     <van-pull-refresh v-else
                       v-model="isRefreshLoading"
@@ -21,6 +24,10 @@
                    :goods="item"
                    :key="item.id"
                    class="goods-item"></good-item>
+        <!-- <div slot="loading"
+             class="loading-container">
+          <span>加载中……</span>
+        </div> -->
       </van-list>
     </van-pull-refresh>
   </div>
@@ -122,6 +129,9 @@ export default {
     padding-top: 0px;
     .goods-item {
       width: 49%;
+    }
+    /deep/ .van-list__loading {
+      width: 100%;
     }
   }
 }

@@ -1,7 +1,9 @@
 <template>
   <div class='layout-container'>
     <!-- 子路由出口 -->
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
     <!-- 底部导航栏  开启路由模式 route-->
     <!-- placeholder 固定在底部时，是否在标签位置生成一个等高的占位元素 -->
     <van-tabbar v-model="active"

@@ -123,7 +123,7 @@
                   :name="props.active ?'home-fill':'home1'" -->
       <van-goods-action-icon @click="$router.push('/')">
         <span class="icon icon-home-fill"
-              color="#07c160"
+              :style="{color:'#333'}"
               slot="icon"></span>
         <span>首页</span>
       </van-goods-action-icon>
@@ -136,9 +136,10 @@
                              text="已收藏"
                              color="#ff5000" />
       <van-goods-action-button type="warning"
-                               text="加入购物车" />
+                               text="添加收藏" />
       <van-goods-action-button type="danger"
-                               text="立即购买" />
+                               text="领券购买"
+                               :url="goods.couponLink" />
     </van-goods-action>
   </div>
 </template>

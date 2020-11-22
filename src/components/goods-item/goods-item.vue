@@ -7,7 +7,11 @@
        }">
       <div @click="selectItem(goods)">
         <div class="img-wrap">
-          <img :src="goods.mainPic" />
+          <img v-lazy="{
+        src: goods.mainPic,
+        error: './rolling.gif',
+        loading: require('./rolling.gif')
+      }" />
         </div>
         <div class="product-des">
           <h3 class="product-title">
