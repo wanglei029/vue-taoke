@@ -240,7 +240,7 @@ export default {
     /* 查看当前商品是否在favoriteList中 */
     isFavorite (goods) {
       const index = this.favoriteList.findIndex((item) => {
-        return item.id === goods.id
+        return item.goodsId === goods.goodsId
       })
       /* 如果index大于-1说明当前商品已经被收藏了 */
       return index > -1

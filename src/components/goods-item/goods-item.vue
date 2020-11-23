@@ -43,14 +43,25 @@
             <!-- <span>{{goods.desc}}</span> -->
           </p>
         </div>
+        <div class="favorite"
+             @click.stop="toggleFavorite(goods)">
+          <!-- <van-icon class="icon"
+                    class-prefix='icon'
+                    :name="isFavorite(goods) ?'favorites-fill':'favorites'"
+                    color="red"></van-icon> -->
+          <van-icon :name="isFavorite(goods) ?'like':'like-o'"
+                    :color="isFavorite(goods) ?'red':'#ddd'" />
+          <!-- <van-icon name="chat-o"></van-icon> -->
+        </div>
       </div>
     </van-cell>
   </div>
 </template>
 
 <script>
-
+import { favoriteMixin } from '@/mixin/favoriteMixin'
 export default {
+  mixins: [favoriteMixin],
   name: 'good-item',
   props: {
     goods: {
@@ -103,6 +114,7 @@ export default {
     background: #fff;
     border-radius: 5px;
     padding: 0;
+    position: relative;
     .img-wrap {
       img {
         width: 100%;
@@ -235,6 +247,22 @@ export default {
           zoom: 1;
           top: 2px;
         }
+      }
+    }
+    .favorite {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      // border: 1px solid #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      // background: #ccc;
+      .van-icon {
+        font-size: 30px;
       }
     }
   }

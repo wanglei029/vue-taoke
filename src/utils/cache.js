@@ -104,7 +104,7 @@ export function saveFavorite (goods) {
   /* 商品插入到列表中 */
   insertArray(goodsList, goods, (item) => {
     /* 如果已经收藏了这个商品 */
-    return goods.id === item.id
+    return goods.goodsId === item.goodsId
   }, FAVORITE_MAX_LEN)
   storage.set(FAVORITE_KEY, goodsList)
   return goodsList
@@ -113,7 +113,7 @@ export function saveFavorite (goods) {
 export function deleteFavorite (goods) {
   const goodsList = storage.get(FAVORITE_KEY, [])
   deleteFromArray(goodsList, (item) => {
-    return item.id === goods.id
+    return item.goodsId === goods.goodsId
   })
   storage.set(FAVORITE_KEY, goodsList)
   return goodsList
