@@ -132,11 +132,14 @@
                              color="#07c160" /> -->
       <van-goods-action-icon icon="cart-o"
                              text="购物车" />
-      <van-goods-action-icon icon="star"
-                             text="已收藏"
+      <van-goods-action-icon :icon="isFavorite (goods)?'star':'star-o'"
+                             :text="isFavorite (goods)?'已收藏':'未收藏'"
+                             @click="toggleFavorite(goods)"
                              color="#ff5000" />
       <van-goods-action-button type="warning"
-                               text="添加收藏" />
+                               :text="isFavorite (goods)?'取消收藏':'添加收藏'"
+                               :loading="isFavoriteLoading"
+                               @click="toggleFavorite(goods)" />
       <van-goods-action-button type="danger"
                                text="领券购买"
                                :url="goods.couponLink" />
@@ -148,7 +151,7 @@
 import { getGoodsDetails, getSimilerGoods } from '@/api/goods'
 import { debounce } from 'lodash'
 import GoodsList from './similer-goods'
-
+import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'Goods',
   props: {},
@@ -160,7 +163,8 @@ export default {
       goods: {},
       detailPics: [],
       similerGoods: [],
-      showTopNav: true
+      showTopNav: true,
+      isFavoriteLoading: false // 是否收藏中状态
     }
   },
   filters: {
@@ -169,7 +173,11 @@ export default {
       return `${oldDate.getFullYear()}.${oldDate.getMonth() + 1}.${oldDate.getDate()}`
     }
   },
-  computed: {},
+  computed: {
+    ...mapGetters([
+      'favoriteList'
+    ])
+  },
 
   created () {
     window.addEventListener('scroll', this.handleScroll)
@@ -215,7 +223,29 @@ export default {
         const newopacity = opacity > 1 ? 1 : opacity
         document.getElementsByClassName('van-sticky--fixed')[0].style.opacity = newopacity
       }
-    }, 200)
+    }, 200),
+    toggleFavorite (goods) {
+      this.isFavoriteLoading = true
+      console.log(this.isFavorite(goods))
+      if (this.isFavorite(goods)) {
+        // 已经关注就取消收藏
+        this.deleteFavoriteList(goods)
+      } else {
+        // 未关注就添加收藏
+        this.saveFavoriteList(goods)
+      }
+      // this.article.is_followed = !this.article.is_followed
+      this.isFavoriteLoading = false
+    },
+    /* 查看当前商品是否在favoriteList中 */
+    isFavorite (goods) {
+      const index = this.favoriteList.findIndex((item) => {
+        return item.id === goods.id
+      })
+      /* 如果index大于-1说明当前商品已经被收藏了 */
+      return index > -1
+    },
+    ...mapActions(['saveFavoriteList', 'deleteFavoriteList'])
   },
 
   watch: {
