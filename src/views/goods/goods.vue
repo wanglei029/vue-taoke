@@ -130,12 +130,19 @@
       <!-- <van-goods-action-icon icon="home"
                              text="首页"
                              color="#07c160" /> -->
-      <van-goods-action-icon icon="cart-o"
-                             text="购物车" />
-      <van-goods-action-icon :icon="isFavorite (goods)?'star':'star-o'"
+      <!-- <van-goods-action-icon icon="browsing-history-o"
+                             @click="$router.push('/collection/browsing')"
+                             text="历史" /> -->
+      <!-- <van-icon name="browsing-history-o" /> -->
+      <van-goods-action-icon icon="star"
+                             :badge="favoriteList.length"
+                             text="已收藏"
+                             @click="$router.push('/collection')"
+                             color="#ff5000" />
+      <!-- <van-goods-action-icon :icon="isFavorite (goods)?'star':'star-o'"
                              :text="isFavorite (goods)?'已收藏':'未收藏'"
                              @click="toggleFavorite(goods)"
-                             color="#ff5000" />
+                             color="#ff5000" /> -->
       <van-goods-action-button type="warning"
                                :text="isFavorite (goods)?'取消收藏':'添加收藏'"
                                :loading="isFavoriteLoading"
@@ -193,6 +200,7 @@ export default {
       const params = this.$route.params
       const { data } = await getGoodsDetails(params)
       this.goods = data.data
+      this.saveBrowsingList(this.goods)
       this.detailPics = JSON.parse(data.data.detailPics)
     },
     async loadSimilerGoods () {
@@ -211,7 +219,7 @@ export default {
     handleScroll: debounce(function () {
       /* document.documentElement.scrollTop||document.body.scrollTop;做兼容处理手机端获取的top为0 */
       const top = document.documentElement.scrollTop || document.body.scrollTop
-      console.log(top)
+      // console.log(top)
       if (top > 66) {
         this.showTopNav = false
         const opacity = top / 52
@@ -245,7 +253,7 @@ export default {
       /* 如果index大于-1说明当前商品已经被收藏了 */
       return index > -1
     },
-    ...mapActions(['saveFavoriteList', 'deleteFavoriteList'])
+    ...mapActions(['saveFavoriteList', 'deleteFavoriteList', 'saveBrowsingList'])
   },
 
   watch: {

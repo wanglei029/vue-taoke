@@ -8,8 +8,8 @@ const SEARCH_KEY = '__search__'
 const SEARCH_MAX_LEN = 15
 
 /* 播放历史 */
-const PLAY_KEY = '__play__'
-const PLAY_MAX_LEN = 200
+const BROWSING_KEY = '__BrowsingHistory__'
+const BROWSING_MAX_LEN = 200
 
 const FAVORITE_KEY = '__favorite__'
 const FAVORITE_MAX_LEN = 200
@@ -80,21 +80,21 @@ export function loadSearch () {
   return storage.get(SEARCH_KEY, [])
 }
 
-/* 保存播放历史到本地缓存 */
-export function savePlay (song) {
-  /* 从本地读取播放历史 如果没有返回空数组 */
-  const songs = storage.get(PLAY_KEY, [])
+/* 保存浏览历史到本地缓存 */
+export function saveBrowsing (song) {
+  /* 从本地读取浏览历史 如果没有返回空数组 */
+  const songs = storage.get(BROWSING_KEY, [])
   insertArray(songs, song, (item) => {
     return song.id === item.id
-  }, PLAY_MAX_LEN)
+  }, BROWSING_MAX_LEN)
   /* 把新的数组缓存到本地 */
-  storage.set(PLAY_KEY, songs)
+  storage.set(BROWSING_KEY, songs)
   /* 返回新的数组 */
   return songs
 }
 /* 从本地缓存读取播放历史记录 */
-export function loadPlay () {
-  return storage.get(PLAY_KEY, [])
+export function loadBrowsing () {
+  return storage.get(BROWSING_KEY, [])
 }
 
 /* 保存收藏列表到本地 */

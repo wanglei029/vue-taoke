@@ -131,6 +131,12 @@ export default {
   left: 0;
   right: 0;
   overflow-y: auto;
+  /deep/.van-tabs__nav {
+    .van-tab--active {
+      background-image: linear-gradient(to bottom, @bgColor, #fe3b35);
+      color: #fff;
+    }
+  }
   .swipe-wraper {
     overflow: hidden;
     width: 100%;

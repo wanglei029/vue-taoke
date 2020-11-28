@@ -8,6 +8,9 @@ const mutations = {
   [types.SET_GOODS] (state, goods) {
     state.goods = goods
   },
+  [types.SET_BROWSING_LIST] (state, list) {
+    state.browsingList = list
+  },
   [types.SET_FAVORITE_LIST] (state, list) {
     state.favoriteList = list
   }

@@ -16,7 +16,12 @@ var vConsole = new VConsole()
 console.log('Hello world')
 Vue.use(Vant)
 Vue.config.productionTip = false
-
+Vue.directive('border', {
+  inserted (elem) {
+    elem.style.border = '1px solid red'
+    elem.style.backgroundColor = 'pink'
+  }
+})
 new Vue({
   router,
   store,

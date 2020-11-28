@@ -1,5 +1,6 @@
 <template>
-  <div class='home-container'>
+  <div class='home-container'
+       ref='homeRef'>
     <van-nav-bar class="app-nav-bar">
       <!-- 通过插槽自定义中间的搜索按钮 -->
       <van-button slot="title"
@@ -14,10 +15,12 @@
       swipeable 滑动切换
      -->
     <van-tabs v-model="active"
+              ref="tabsRef"
               line-height='0'
               title-active-color='#fe204a'
               swipeable>
       <van-tab :title="channel.cname"
+               v-border
                v-for='channel in channels'
                :key="channel.cid">
         <home-list v-if="channel.cid===-1"></home-list>
@@ -60,7 +63,6 @@ export default {
     async loadSuperCategory () {
       const { data } = await getSuperCategory()
       this.channels = [{ cid: -1, cname: '精选' }, ...data.data]
-      // console.log(data)
     }
   },
 
@@ -89,6 +91,9 @@ export default {
       font-size: 14px;
       color: #ccc;
     }
+  }
+  /deep/.van-tab__pane {
+    border: none !important;
   }
 }
 </style>
