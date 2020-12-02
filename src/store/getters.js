@@ -2,3 +2,4 @@
 export const goods = state => state.goods
 export const browsingList = state => state.browsingList
 export const favoriteList = state => state.favoriteList
+export const user = state => state.user

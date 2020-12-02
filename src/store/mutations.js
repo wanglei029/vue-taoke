@@ -13,6 +13,12 @@ const mutations = {
   },
   [types.SET_FAVORITE_LIST] (state, list) {
     state.favoriteList = list
+  },
+  [types.SET_CURRENT_USER] (state, user) {
+    state.user = user
+  },
+  [types.SET_USER_LIST] (state, list) {
+    state.userList = list
   }
 }
 export default mutations
