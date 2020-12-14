@@ -58,5 +58,11 @@ export default {
 </script>
 <style lang='less' scoped>
 .search-result-container {
+  position: fixed;
+  top: 54px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow-y: auto;
 }
 </style>
