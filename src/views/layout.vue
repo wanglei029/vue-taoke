@@ -51,6 +51,7 @@
         <span>我的</span>
       </van-tabbar-item>
     </van-tabbar>
+
   </div>
 </template>
 
@@ -68,11 +69,17 @@ export default {
 
   computed: {},
 
-  created () { },
+  created () {
+    window.addEventListener('scroll', () => { console.log('scroll') })
+  },
 
-  mounted () { },
+  mounted () {
+    window.addEventListener('scroll', this.getScroll)
+  },
 
-  methods: {},
+  methods: {
+
+  },
 
   watch: {}
 

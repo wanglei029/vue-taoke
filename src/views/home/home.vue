@@ -6,6 +6,7 @@
       <van-button slot="title"
                   icon="search"
                   class="search-btn"
+                  to="/search"
                   round>搜索</van-button>
     </van-nav-bar>
     <!-- 商品分类列表 -->
@@ -20,7 +21,6 @@
               title-active-color='#fe204a'
               swipeable>
       <van-tab :title="channel.cname"
-               v-border
                v-for='channel in channels'
                :key="channel.cid">
         <home-list v-if="channel.cid===-1"></home-list>
@@ -56,7 +56,9 @@ export default {
     this.loadSuperCategory()
   },
 
-  mounted () { },
+  mounted () {
+
+  },
 
   methods: {
     /* 获取商品分类 */

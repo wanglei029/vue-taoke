@@ -43,10 +43,15 @@
         <zhibo-list></zhibo-list>
       </van-tab>
     </van-tabs>
+    <!-- 返回顶部 -->
+    <scroll-top ref="refScrollTop"
+                v-show="isBackTopShow"
+                @backTop="scrollTop"></scroll-top>
   </div>
 </template>
 
 <script>
+import ScrollTop from '@/components/scroll-top/scroll-top'
 import {
   getActivity,
   getGridIcons
@@ -56,12 +61,13 @@ import ZhiboList from './zhibo-list/zhibo-list'
 export default {
   name: 'home-list',
   props: {},
-  components: { YouxuanList, ZhiboList },
+  components: { YouxuanList, ZhiboList, ScrollTop },
   data () {
     return {
       activities: [], // 幻灯片
       gridIcons: [], // 九宫格图标
-      active: 0
+      active: 0,
+      isBackTopShow: false
     }
   },
 
@@ -85,7 +91,7 @@ export default {
   },
 
   mounted () {
-
+    document.getElementsByClassName('home-list-container')[0].addEventListener('scroll', this.scroll)
   },
 
   methods: {
@@ -110,11 +116,30 @@ export default {
       const { data } = await getGridIcons()
       // console.log(data)
       this.gridIcons = data.data.config.data
+    },
+    scrollTop () {
+      // console.log('home-scroll', this.topNum)
+      const wrapper = document.getElementsByClassName('home-list-container')
+      const offsetTop = wrapper[0].offsetTop
+      const scrollTop = wrapper[0].scrollTop
+      console.log(wrapper, offsetTop, scrollTop)
+      wrapper[0].scrollTop = 0
+    },
+    scroll () {
+      const wrapper = document.getElementsByClassName('home-list-container')
+
+      console.log('页面滚动', wrapper[0].scrollTop, wrapper)
+      if (wrapper[0].scrollTop < 400) {
+        this.isBackTopShow = false
+      } else {
+        this.isBackTopShow = true
+      }
     }
 
   },
 
-  watch: {}
+  watch: {
+  }
 
 }
 

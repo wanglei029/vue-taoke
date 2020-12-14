@@ -17,9 +17,9 @@
                 finished-text="没有更多了"
                 @load="onLoad"
                 class="goods-list">
-        <good-item v-for="item in goods"
+        <good-item v-for="(item,index) in goods"
                    :goods="item"
-                   :key="item.id"
+                   :key="`${index}-${item.id}`"
                    class="goods-item"></good-item>
       </van-list>
     </van-pull-refresh>

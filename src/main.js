@@ -10,18 +10,14 @@ import './styles/index.less'
 import './utils/dayjs'
 // eslint-disable-next-line no-unused-vars
 import VConsole from 'vconsole'
+import fastclick from 'fastclick'
 
+fastclick.attach(document.body) // 页面点击 300毫秒延迟
 Vue.use(Lazyload)
-var vConsole = new VConsole()
+// var vConsole = new VConsole()
 console.log('Hello world')
 Vue.use(Vant)
 Vue.config.productionTip = false
-Vue.directive('border', {
-  inserted (elem) {
-    elem.style.border = '1px solid red'
-    elem.style.backgroundColor = 'pink'
-  }
-})
 new Vue({
   router,
   store,
