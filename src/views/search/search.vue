@@ -12,15 +12,15 @@
                   placeholder="请输入搜索关键词" />
     </form>
     <!-- /1.搜索栏 -->
+    <!-- 搜索结果 -->
+    <search-result v-if="isResultShow"></search-result>
+    <!-- /搜索结果 -->
     <!-- 联想建议 -->
-    <search-suggestion></search-suggestion>
+    <search-suggestion v-else-if="searchText"></search-suggestion>
     <!-- /联想建议 -->
     <!-- 历史记录 -->
-    <search-history></search-history>
+    <search-history v-else></search-history>
     <!-- /历史记录 -->
-    <!-- 搜索结果 -->
-    <search-result></search-result>
-    <!-- /搜索结果 -->
   </div>
 </template>
 
@@ -34,7 +34,8 @@ export default {
   components: { SearchSuggestion, SearchHistory, SearchResult },
   data () {
     return {
-      searchText: ''
+      searchText: '',
+      isResultShow: false // 控制搜索结果的显示状态
     }
   },
 
@@ -47,6 +48,8 @@ export default {
   methods: {
     onSearch () {
       console.log('search')
+      /* 触发搜索的时候显示搜索结果 */
+      this.isResultShow = true
     }
   },
 
